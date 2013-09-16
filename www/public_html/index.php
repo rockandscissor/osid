@@ -64,16 +64,34 @@
 		<div class="one-third column">
             <h4>Choose devices to write to:</h4>
             <p>
-                <input type="checkbox" id="DeviceA" name="DeviceA" value="sba" checked="checked" /> Device 1<br />
-                <input type="checkbox" id="DeviceB" name="DeviceB" value="sbb" checked="checked" /> Device 2<br />
-                <input type="checkbox" id="DeviceC" name="DeviceC" value="sbc" checked="checked" /> Device 3<br />
-                <input type="checkbox" id="DeviceD" name="DeviceD" value="sbd" checked="checked" /> Device 4<br />
-                <input type="checkbox" id="DeviceE" name="DeviceE" value="sbe" checked="checked" /> Device 5<br />
-                <input type="checkbox" id="DeviceF" name="DeviceF" value="sbf" checked="checked" /> Device 6<br />
-                <input type="checkbox" id="DeviceG" name="DeviceG" value="sbg" checked="checked" /> Device 7<br />
-                <input type="checkbox" id="DeviceH" name="DeviceH" value="sbh" checked="checked" /> Device 8<br />
-                <input type="checkbox" id="DeviceI" name="DeviceI" value="sbi" checked="checked" /> Device 9<br />
-                <input type="checkbox" id="DeviceJ" name="DeviceJ" value="sbj" checked="checked" /> Device 10<br />
+                <?php
+                //get list of attached devices
+                $DeviceList = shell_exec("lsblk -d | awk -F: '{print $1}' | awk '{print $1}'");
+                
+                //put list into array
+                $DeviceArray = explode("\n", $DeviceList);
+                
+                //create counter
+                $i = 1;
+                
+                //output contents of array
+                foreach ($DeviceArray as &$Device) {
+                    
+                    //check this is not the column header or system device
+                    if (!($Device == 'NAME' || $Device == 'mmcblk0' || $Device == '')) {
+                    
+                        //create device id
+                        $DeviceID = str_replace("sd", "", $Device);
+                ?>
+                <input type="checkbox" id="Device<?php echo strtoupper($DeviceID); ?>" name="Device<?php echo strtoupper($DeviceID); ?>" value="<?php echo $Device; ?>" checked="checked" /> Device <?php echo $i; ?><br />
+                <?php
+                        //increment counter
+                        $i++;
+                        
+                    } //END check this is not the column header or system device
+                
+                } //END output contents of array
+                ?>
             </p>
         </div>
 		<div class="one-third column">
@@ -87,7 +105,7 @@
             <a href="license.txt">
                 <img src="images/gplv3.png" width="150" height="60" border="0" align="right" />
             </a>
-            <h5>Released by Rock &amp; Scissor Enterprises Limited under the GNU GPLv3.</h5>
+            <h5>Released by <a href="http://www.rockandscissor.com/" target="_blank">Rock &amp; Scissor Enterprises Limited</a> under the <a href="http://www.gnu.org/licenses/gpl.html">GNU GPLv3</a>.</h5>
         </div>
 
 	</div><!-- container -->
