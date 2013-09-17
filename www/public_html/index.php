@@ -61,20 +61,30 @@
                 $ImageFiles = scandir('/etc/osid/imgroot');
                 
                 //create counter for files
-                $i = 1;
+                $countFiles = 0;
                 
                 //loop through each file that has been found
-                foreach ($files as &$Filename) {
+                foreach ($ImageFiles as &$Filename) {
                     
                     //check that file is not one of these
                     if (!($Filename == '.' || $Filename == '..') && (substr($Filename, -4) == '.img')) {
+                        
+                        //increment counter
+                        $countFiles++;
                 ?>
-			    <input type="radio" id="ImageToUse<?php echo $i; ?>" name="ImageToUse" value="<?php echo $Filename; ?>" />&nbsp;<?php echo $Filename; ?><br />
+			    <input type="radio" id="ImageToUse<?php echo $countFiles; ?>" name="ImageToUse" value="<?php echo $Filename; ?>" />&nbsp;<?php echo $Filename; ?><br />
 			    <?php
                     } //END check that file is not one of these
                     
                 } //END loop through each file that has been found
+                
+                //check if the array is empty
+                if ($countFiles == 0) {
 			    ?>
+			    No image files found
+			    <?php
+                } //END check if the array is empty
+                ?>
 			</p>
 		</div>
 		<div class="one-third column">
@@ -88,7 +98,7 @@
                 $DeviceArray = explode("\n", $DeviceList);
                 
                 //create counter
-                $i = 1;
+                $countDevices = 1;
                 
                 //output contents of array
                 foreach ($DeviceArray as &$Device) {
@@ -99,10 +109,10 @@
                         //create device id
                         $DeviceID = str_replace("sd", "", $Device);
                 ?>
-                <input type="checkbox" id="Device<?php echo strtoupper($DeviceID); ?>" name="Device<?php echo strtoupper($DeviceID); ?>" value="<?php echo $Device; ?>" checked="checked" /> Device <?php echo $i; ?><br />
+                <input type="checkbox" id="Device<?php echo strtoupper($DeviceID); ?>" name="Device<?php echo strtoupper($DeviceID); ?>" value="<?php echo $Device; ?>" checked="checked"<?php if ($countFiles == 0) { ?> disabled="disabled"<?php } ?> /> Device <?php echo $countDevices; ?><br />
                 <?php
                         //increment counter
-                        $i++;
+                        $countDevices++;
                         
                     } //END check this is not the column header or system device
                 
@@ -113,7 +123,7 @@
 		<div class="one-third column">
             <h4>Start writing to devices:</h4>
             <p>
-                <input type="submit" id="WriteImage" name="WriteImage" value="Write Image to Devices" />
+                <input type="submit" id="WriteImage" name="WriteImage" value="Write Image to Devices"<?php if ($countFiles == 0) { ?> disabled="disabled" style="color: #666;"<?php } ?> />
             </p>
         </div>
         <div class="sixteen columns">
