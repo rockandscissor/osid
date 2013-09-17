@@ -56,9 +56,25 @@
 		<div class="one-third column">
 			<h4>Select an image:</h4>
 			<p>
-			    <input type="radio" id="ImageToUse1" name="ImageToUse" value="image1.img" checked="checked" />&nbsp;image1.img<br />
-			    <input type="radio" id="ImageToUse2" name="ImageToUse" value="image2.img" />&nbsp;image2.img<br />
-			    <input type="radio" id="ImageToUse3" name="ImageToUse" value="image3.img" />&nbsp;image3.img<br />
+			    <?php
+			    //get list of files in the image root
+                $ImageFiles = scandir('/etc/osid/imgroot');
+                
+                //create counter for files
+                $i = 1;
+                
+                //loop through each file that has been found
+                foreach ($files as &$Filename) {
+                    
+                    //check that file is not one of these
+                    if (!($Filename == '.' || $Filename == '..') && (substr($Filename, -4) == '.img')) {
+                ?>
+			    <input type="radio" id="ImageToUse<?php echo $i; ?>" name="ImageToUse" value="<?php echo $Filename; ?>" />&nbsp;<?php echo $Filename; ?><br />
+			    <?php
+                    } //END check that file is not one of these
+                    
+                } //END loop through each file that has been found
+			    ?>
 			</p>
 		</div>
 		<div class="one-third column">
