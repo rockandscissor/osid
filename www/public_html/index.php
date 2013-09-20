@@ -160,10 +160,10 @@ if (isset($_POST['WriteImage'])) {
                     
                 } else if (writeInfoArray[2] != 'out') {
                     
-                    document.getElementById('progress_bar').style.width = percentCompleted+'100%';
+                    document.getElementById('progress_bar').style.width = '100%';
                     document.getElementById('progress_bar').style.backgroundColor = '#00CC33';
                     document.getElementById('progress_bar').innerHTML = 'Done...';
-                    document.getElementById('unprogress_bar').style.width = percentCompleted+'0%';
+                    document.getElementById('unprogress_bar').style.width = '0%';
                     document.getElementById('StatusMessage').innerHTML = 'Completed writing to device(s)';
                     
                 } else {

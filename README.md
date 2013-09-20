@@ -18,11 +18,6 @@ This project was created by Matthew Stone (matthew.stone@rockandscissor.com) and
 
 If you have any questions/comments/feedback please contact Matthew on the email listed above and he'll do his best to help you out.
 
-Known Bugs
-==========
-
-
-
 Hardware Compatibility
 ======================
 
