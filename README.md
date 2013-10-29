@@ -5,10 +5,10 @@ Open Source Image Duplicator is a simple web-based UI script that allows you to 
 
 The components used on our test device were as follows:
 
-1 x Raspberry Pi Model B Revision 2
-1 x MicroUSB 1500mA Power Supply
-1 x Powered USB Hub with 10 ports/7 ports (see notes on hardware compatibility)
-10 x USB MicroSD Card Adaptors
+- 1 x Raspberry Pi Model B Revision 2
+- 1 x MicroUSB 1500mA Power Supply
+- 1 x Powered USB Hub with 10 ports/7 ports (see notes on hardware compatibility)
+- 10 x USB MicroSD Card Adaptors
 
 We recommend running Arch Linux ARM on the Raspberry Pi due to it being a simple lightweight linux distro that boots in around 10-20 seconds. We used Nginx with php-fpm as we found early on that Apache2 isn't particulary stable on the Raspberry Pi and consumes a large amount of resources when compared to Nginx.
 

@@ -203,7 +203,7 @@ if (isset($_POST['WriteImage'])) {
 	<div class="container">
 		<div class="sixteen columns osid_icon">
 			<h1 class="remove-bottom" style="margin-top: 40px; padding-left: 85px;">OSID</h1>
-			<h5 style="padding-left: 85px;">Open Source Image Duplicator v0.1</h5>
+			<h5 style="padding-left: 85px;">Open Source Image Duplicator v1.0</h5>
 			<hr />
 		</div>
 		<div class="sixteen columns">
@@ -272,7 +272,7 @@ if (isset($_POST['WriteImage'])) {
                         $DeviceID = str_replace("sd", "", $Device);
                         
                         //create device size in gb
-                        $DeviceSize = round(((shell_exec("cat /sys/block/sda/size") / 2) / 1024) / 1024, 2);
+                        $DeviceSize = round(((shell_exec("cat /sys/block/sd" . $DeviceID . "/size") / 2) / 1024) / 1024, 2);
                 ?>
                 <input type="checkbox" id="Device<?php echo strtoupper($DeviceID); ?>" name="Device[]" value="<?php echo $Device; ?>" checked="checked"<?php if ($countFiles == 0) { ?> disabled="disabled"<?php } ?> /> Device <?php echo $countDevices; ?> (<?php echo $DeviceSize; ?>GB)<br />
                 <?php
