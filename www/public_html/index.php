@@ -175,8 +175,6 @@ if (isset($_POST['WriteImage'])) {
                     waitTime();
 
                 }
-
-                alert(writeInfoArray[0]+" "+writeInfoArray[1]+" "+writeInfoArray[2]+" "+writeInfoArray[3]+" "+writeInfoArray[4]);
             
             }
         
@@ -331,7 +329,7 @@ if (isset($_POST['WriteImage'])) {
             <h5>Progress</h5>
             <div id="progress_bar">0%</div><div id="unprogress_bar"></div>
             <p id="StatusMessage" align="center">
-                Preparing for image writing...
+                Connecting to image write sub-system...
             </p>
         </div>
     </div>
