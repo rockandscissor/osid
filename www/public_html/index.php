@@ -1,6 +1,4 @@
 <?php
-// /usr/bin/dcfldd bs=4M if=/etc/osid/imgroot/cloudmonitor-probe-2-4.img of=/dev/sda of=/dev/sdb of=/dev/sdc sizeprobe=if statusinterval=1 2> /etc/osid/system/progress.info
-
 //check if the form has been submitted
 if (isset($_POST['WriteImage'])) {
     
@@ -9,6 +7,10 @@ if (isset($_POST['WriteImage'])) {
     
     //write selected image to the info file
     shell_exec("echo \"" . $_POST['ImageToUse'] . "\" > /etc/osid/system/imagefile.info");
+
+    //declare DeviceList and UmountList variables
+    $DeviceList = "";
+    $UmountList = "";
     
     //create device list from checkbox array
     foreach ($_POST['Device'] as &$DeviceName) {
@@ -39,10 +41,10 @@ if (isset($_POST['WriteImage'])) {
     //write devices to the info file
     shell_exec("echo \"" . $UmountList . "\" > /etc/osid/system/umountlist.info");
     
-    //make sure imagefile.info is blank
+    //make sure status.info is blank
     shell_exec("cat /dev/null > /etc/osid/system/status.info");
     
-    //write selected image to the info file
+    //set the status.info to one (start job)
     shell_exec("echo \"1\" > /etc/osid/system/status.info");
     
 } //END check if the form has been submitted
@@ -100,7 +102,7 @@ if (isset($_POST['WriteImage'])) {
         
         if (xmlhttp.readyState==4) {
             
-            if (xmlhttp.responseText == 'Error') {
+            if (xmlhttp.responseText == 'Error' || xmlhttp.responseText == '') {
                 
                 alert("There was problem checking progress");
             
@@ -108,7 +110,7 @@ if (isset($_POST['WriteImage'])) {
                 
                 var writeInfoArray = xmlhttp.responseText.split("|");
                 
-                if (writeInfoArray[2] != 'in' && writeInfoArray[2] != 'out' && writeInfoArray[2] != '') {
+                if (writeInfoArray[2] != 'in' && writeInfoArray[2] != 'out' && writeInfoArray[2] != '' && writeInfoArray[4] == 2) {
                 
                     percentCompleted = parseInt(writeInfoArray[0]);
                     totalFileSize = parseInt(writeInfoArray[1]);
@@ -158,19 +160,23 @@ if (isset($_POST['WriteImage'])) {
                     
                     waitTime();
                     
-                } else if (writeInfoArray[2] != 'out') {
+                } else if (writeInfoArray[2] != 'out' && writeInfoArray[4] == 2) {
                     
                     document.getElementById('progress_bar').style.width = '100%';
                     document.getElementById('progress_bar').style.backgroundColor = '#00CC33';
                     document.getElementById('progress_bar').innerHTML = 'Done...';
                     document.getElementById('unprogress_bar').style.width = '0%';
                     document.getElementById('StatusMessage').innerHTML = 'Completed writing to device(s)';
-                    
-                } else {
+
+                } else if (writeInfoArray[4] == 2) {
                     
                     document.getElementById('StatusMessage').innerHTML = 'Waiting for device(s) to be ready...';
-                    
+
+                    waitTime();
+
                 }
+
+                alert(writeInfoArray[0]+" "+writeInfoArray[1]+" "+writeInfoArray[2]+" "+writeInfoArray[3]+" "+writeInfoArray[4]);
             
             }
         
@@ -180,6 +186,10 @@ if (isset($_POST['WriteImage'])) {
     
     function waitTime() {
         setTimeout("startMonitor()", 1000);
+    }
+
+    function initialStart() {
+        setTimeout("startMonitor()", 15000);
     }
 	</script>
 
@@ -203,7 +213,7 @@ if (isset($_POST['WriteImage'])) {
 	<div class="container">
 		<div class="sixteen columns osid_icon">
 			<h1 class="remove-bottom" style="margin-top: 40px; padding-left: 85px;">OSID</h1>
-			<h5 style="padding-left: 85px;">Open Source Image Duplicator v1.0</h5>
+			<h5 style="padding-left: 85px;">Open Source Image Duplicator v1.1</h5>
 			<hr />
 		</div>
 		<div class="sixteen columns">
@@ -225,7 +235,7 @@ if (isset($_POST['WriteImage'])) {
                 foreach ($ImageFiles as &$Filename) {
                     
                     //check that file is not one of these
-                    if (substr($Filename, -4) == '.img') {
+                    if (substr($Filename, -4) == '.img' && substr($Filename, 0, 1) != '.') {
                             
                         //create file size variable
                         $FileSizeB = explode(" ", shell_exec("ls -s /etc/osid/imgroot/" . $Filename), 1);
@@ -314,19 +324,19 @@ if (isset($_POST['WriteImage'])) {
     clearstatcache();
     
     //check if the form was submitted
-    if (isset($_POST['WriteImage']) || !(filesize('/etc/osid/system/progress.info') == 0)) {
+    if (isset($_POST['WriteImage']) || !(filesize('/etc/osid/system/progress.info') == 0) || shell_exec("cat /etc/osid/system/status.info") == 2 || shell_exec("cat /etc/osid/system/status.info") == 1) {
     ?>
     <div id="progress_bg">
         <div id="progress_display">
             <h5>Progress</h5>
             <div id="progress_bar">0%</div><div id="unprogress_bar"></div>
             <p id="StatusMessage" align="center">
-                Waiting for ready state...
+                Preparing for image writing...
             </p>
         </div>
     </div>
     <script type="text/javascript">
-    startMonitor();
+    initialStart();
     </script>
     <?php
     } //END check if the form was submitted

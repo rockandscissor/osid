@@ -10,8 +10,8 @@ then
    #make sure the progress info file is empty
    cat /dev/null > /etc/osid/system/progress.info
    
-   #set the status of the job to zero
-   echo "0" > /etc/osid/system/status.info
+   #set the status of the job to two (in progress)
+   echo "2" > /etc/osid/system/status.info
    
    #put the contents of imagefile, devicelist, and unmount list into variables
    imagefile=$(cat /etc/osid/system/imagefile.info)
@@ -32,6 +32,9 @@ then
    cat /dev/null > /etc/osid/system/imagefile.info
    cat /dev/null > /etc/osid/system/devicelist.info   
    cat /dev/null > /etc/osid/system/umountlist.info
+
+   #set the status of the job to zero
+   echo "0" > /etc/osid/system/status.info
 
 fi
 
