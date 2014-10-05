@@ -14,7 +14,7 @@ We recommend running Arch Linux ARM on the Raspberry Pi due to it being a simple
 
 We will make an image file available of the complete Arch Linux ARM Image with OSID pre-installed (including step by step instructions) at http://www.rockandscissor.com/projects/osid upon completion of the project.
 
-This project was created by Matthew Stone (matthew.stone@rockandscissor.com) and released under the GNU GPLv3 license by Rock & Scissor Enterprises Limited.
+This project was created by Matthew Stone (matt@rockandscissor.com) and released under the GNU GPLv3 license by Rock & Scissor Enterprises Limited.
 
 If you have any questions/comments/feedback please contact Matthew on the email listed above and he'll do his best to help you out.
 
