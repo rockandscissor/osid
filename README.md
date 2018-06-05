@@ -1,6 +1,8 @@
 osid
 ====
 
+Update: Development on this project has ended, please see Aaron Nguyen's excellent fork at https://github.com/aaronnguyen/osid-python3 for a more up-to-date version of OSID
+
 Open Source Image Duplicator is a simple web-based UI script that allows you to build a low cost Duplicator for USB Drives, SD Cards, or any other type of media that an image file can be written to using the dd command.
 
 The components used on our test device were as follows:
